@@ -1,0 +1,113 @@
+-- Table: geo
+
+-- DROP TABLE geo;
+
+CREATE TABLE geo
+(
+  id serial NOT NULL,
+  lat character varying(255),
+  lng character varying(255),
+  CONSTRAINT geo_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE geo
+  OWNER TO postgres;
+
+
+
+
+-- Table: address
+
+-- DROP TABLE address;
+
+CREATE TABLE address
+(
+  id serial NOT NULL,
+  city character varying(255),
+  street character varying(255),
+  suite character varying(255),
+  zipcode character varying(255),
+  geoid integer,
+  CONSTRAINT address_pkey PRIMARY KEY (id),
+  CONSTRAINT address_geoid_fkey FOREIGN KEY (geoid)
+      REFERENCES geo (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE address
+  OWNER TO postgres;
+
+
+-- Table: company
+
+-- DROP TABLE company;
+
+CREATE TABLE company
+(
+  id serial NOT NULL,
+  bs character varying(255),
+  catchphrase character varying(255),
+  name character varying(255),
+  CONSTRAINT company_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE company
+  OWNER TO postgres;
+
+
+-- Table: todos
+
+-- DROP TABLE todos;
+
+CREATE TABLE todos
+(
+  id serial NOT NULL,
+  email character varying(255),
+  name character varying(255),
+  phone character varying(255),
+  username character varying(255),
+  website character varying(255),
+  addressid integer,
+  companyid integer,
+  CONSTRAINT todos_pkey PRIMARY KEY (id),
+  CONSTRAINT todos_addressid_fkey FOREIGN KEY (addressid)
+      REFERENCES address (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT todos_companyid_fkey FOREIGN KEY (companyid)
+      REFERENCES company (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE todos
+  OWNER TO postgres;
+
+
+
+-- Table: users
+
+-- DROP TABLE users;
+
+CREATE TABLE users
+(
+  userid serial NOT NULL,
+  completed character varying(255),
+  id integer,
+  title character varying(255),
+  CONSTRAINT users_pkey PRIMARY KEY (userid),
+  CONSTRAINT users_id_fkey FOREIGN KEY (id)
+      REFERENCES todos (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE users
+  OWNER TO postgres;

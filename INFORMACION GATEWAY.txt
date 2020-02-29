@@ -1,0 +1,28 @@
+Utilize el gateway Fabio, porque se integra automaticamente con Consul que es el servidor de registro
+que estoy utilizando
+Al igual que consul, para ejecutar fabio se necesita descargar un programa ejecutable para cargar el servidor se
+lo puede descargar del siguiente link :
+
+https://github.com/fabiolb/fabio/releases/download/v1.5.13/fabio-1.5.13-go1.13.4-windows_amd64.exe
+
+Fabio funciona de la siguiente manera, se necesita registrar un tag en especifico
+en los servidores que queremos que se integren a fabio para que este los balancee
+automaticamente, con el siguiente tag realizamos la tarea mencionada anteriormente
+urlprefix-/nombre servicio
+
+Fabio consta con una pagina de administracion para que podamos verificar si nuestra instancias del
+servicio estan registradas correctamente, cuya direccion es
+http://localhost:9998 -> la administracion de fabio se maneja en el puerto 9998
+
+Para probar el gateway ya aplicado a nuestras instancias se necesita usar el
+siguiente enlace:
+ 
+http://localhost:9999/users -> el gateway funciona por defecto en el puerto 9999
+que es el puerto que nos proporciona el gateway fabio
+
+IMPORTANTE!!!!
+
+Para verificar que el tag se registre automaticamente en ambos servidores,
+la configuracion se encuentra en el paquete com.recuperacion.distribuida.serviciosRest
+en la clase RestAplication
+
